@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Dto\Auth\RegisterDto;
+use App\Enums\RolesEnum;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\Auth\AuthResource;
+use App\Models\User;
+use App\Notifications\Auth\AccountRegisteredNotification;
+use App\Services\HttpResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+
+class RegisterController extends Controller
+{
+    /**
+     * Handle the incoming request.
+     */
+    public function __invoke(RegisterRequest $request): JsonResponse
+    {
+        $payload = RegisterDto::fromRequest($request);
+
+        DB::beginTransaction();
+        try {
+            /**
+             * @var User $user
+             */
+            $user = User::query()->create($payload->toArray());
+            $user->teams()->create(
+                ['name' => $payload->teamName],
+                ['is_owner' => true]
+            );
+            $user->addRole(RolesEnum::OWNER, $user->ownedTeam);
+            $user->append('ownedTeam');
+            $user->load(['roles']);
+            $token = $user->createAccessToken();
+            auth()->login($user);
+            $responsePayload = new AuthResource($user, $token);
+
+            DB::commit();
+
+            $user->notify(new AccountRegisteredNotification($request->password));
+
+            return HttpResponse::success(
+                data: $responsePayload,
+                httpCode: JsonResponse::HTTP_CREATED
+            );
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return HttpResponse::error(
+                data: "Failed to create account: {$th->getMessage()}",
+            );
+        }
+
+    }
+}

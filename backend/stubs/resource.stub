@@ -1,0 +1,39 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Http\Request;
+use App\Http\Resources\Common\DateResource;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class {{ class }} extends JsonResource
+{
+    /**
+     * Create a new resource instance.
+     *
+     * @param mixed $resource
+     * @param bool $showTimestamps
+     */
+    public function __construct(
+        public mixed $resource, 
+        private bool $showTimestamps = true
+    ){
+        parent::__construct($resource);
+    }
+    
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            $this->mergeWhen($this->showTimestamps, [
+                'createdAt' => new DateResource($this->created_at),
+                'updatedAt' => new DateResource($this->updated_at),
+            ]),
+        ];
+
+    }
+}
