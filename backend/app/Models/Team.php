@@ -28,7 +28,7 @@ class Team extends LaratrustTeam
     protected function displayName(): Attribute
     {
         return Attribute::make(
-            set: fn(string $value, array $attributes) => (
+            set: fn(?string $value = null, array $attributes) => (
                 $value ?: str($attributes['name'])->replace('-', ' ')
                     ->lower()->ucfirst()->toString()
             )

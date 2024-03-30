@@ -29,7 +29,10 @@ class RegisterController extends Controller
              */
             $user = User::query()->create($payload->toArray());
             $user->teams()->create(
-                ['name' => $payload->teamName],
+                [
+                    'name'         => $payload->teamName,
+                    'display_name' => $payload->teamDisplayName,
+                ],
                 ['is_owner' => true]
             );
             $user->addRole(RolesEnum::OWNER, $user->ownedTeam);

@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Notification;
 use Tests\RequestFactories\Auth\SentEmailVerificationCodeRequestFactory;
 
 /**
- * @todo: verification code should be sent to the user's email
- * @todo: a verification should exist in the users database for that email
- * @todo: should match the code in the database with the code sent
+ * ----------------
  */
 test('Sent Email Verification Code', function () {
     Notification::fake();
@@ -35,6 +33,9 @@ test('Sent Email Verification Code', function () {
     ]);
 });
 
+/**
+ * ----------------
+ */
 test('Validation error if the email given does not exist, invalid, or empty', function () {
     Notification::fake();
     $email        = fake()->safeEmail();

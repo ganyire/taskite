@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Contracts\User\PasswordResetContract;
+use App\Traits\Auth\PasswordResetTrait;
 use App\Traits\Models\UserTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -16,10 +18,12 @@ use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements LaratrustUser
+class User extends Authenticatable implements LaratrustUser, PasswordResetContract
 {
     use HasFactory, Notifiable, HasUuids, HasApiTokens, SoftDeletes;
     use HasRolesAndPermissions, UserTrait;
+    use PasswordResetTrait;
+    // use PasswordsCanResetPassword;
 
     /**
      * The attributes that are mass assignable.

@@ -12,10 +12,10 @@ class HttpResponse
      * Set API version
      * ------------
      */
-    public static function setApiVersion(string $apiVersion): static
+    public static function setApiVersion(string $apiVersion)
     {
-        static::$apiVersion = $apiVersion;
-        return new static;
+        self::$apiVersion = $apiVersion;
+        return new self;
     }
 
     /**
@@ -26,13 +26,13 @@ class HttpResponse
         string $message = null,
         mixed $data = null,
         int $httpCode = JsonResponse::HTTP_OK
-    ): JsonResponse {
+    ) {
         return response()->json([
             'status'  => 'success',
             'message' => $message,
             'payload' => $data,
         ], $httpCode)->withHeaders([
-            'X-API-Version' => static::$apiVersion,
+            'X-API-Version' => self::$apiVersion,
         ]);
     }
 
@@ -43,12 +43,12 @@ class HttpResponse
     public static function error(
         array | string $data = null,
         int $httpCode = JsonResponse::HTTP_INTERNAL_SERVER_ERROR
-    ): JsonResponse {
+    ) {
         return response()->json([
             'status'  => 'error',
             'payload' => $data,
         ], $httpCode)->withHeaders([
-            'X-API-Version' => static::$apiVersion,
+            'X-API-Version' => self::$apiVersion,
         ]);
     }
 }

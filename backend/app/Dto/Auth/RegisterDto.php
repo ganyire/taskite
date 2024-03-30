@@ -15,7 +15,7 @@ class RegisterDto
         public readonly string $name,
         public readonly string $password,
         public readonly string $teamName,
-
+        public readonly ?string $teamDisplayName = null,
     ) {
     }
 
@@ -26,16 +26,18 @@ class RegisterDto
             name: $request->name,
             password: $request->password,
             teamName: $request->teamName,
+            teamDisplayName: $request->teamDisplayName,
         );
     }
 
     public function toArray(?bool $filter = true): array
     {
         $data = [
-            'name'     => $this->name,
-            'email'    => $this->email,
-            'password' => $this->password,
-            'teamName' => $this->teamName,
+            'name'            => $this->name,
+            'email'           => $this->email,
+            'password'        => $this->password,
+            'teamName'        => $this->teamName,
+            'teamDisplayName' => $this->teamDisplayName,
         ];
 
         return $filter ? Arr::where(

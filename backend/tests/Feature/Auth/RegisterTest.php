@@ -11,7 +11,7 @@ use Tests\RequestFactories\Auth\RegisterRequestFactory;
 
 test('User can create account successfully', function () {
     Notification::fake();
-    $teamName = 'My workspace';
+    $teamName = 'my-workspace';
     RegisterRequestFactory::new (['teamName' => $teamName])
         ->passwordConfirmed()
         ->fake();
@@ -24,12 +24,20 @@ test('User can create account successfully', function () {
     );
     $response->assertJsonPath(
         'payload.team.name',
-        str($teamName)->replace(' ', '-')->lower()->toString()
+        $teamName
+    )->assertJsonPath(
+        'payload.team.displayName',
+        str($teamName)->replace('-', ' ')->lower()->ucfirst()->toString()
     );
+    /**
+     * @var \App\Models\User $authUser
+     */
+    $authUser = auth()->user();
     Notification::assertSentTo(
-        auth()->user(),
+        $authUser,
         AccountRegisteredNotification::class
     );
+    assert($authUser->hasRole(RolesEnum::OWNER->value, $authUser->ownedTeam));
     assertAuthenticated();
     assert(is_string($response->json('payload.accessToken')));
     assertDatabaseCount('users', 1);

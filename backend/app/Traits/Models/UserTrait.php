@@ -80,4 +80,48 @@ trait UserTrait
         $this->notify(new EmailVerificationCodeNotification($code));
     }
 
+    /**
+     * Determine if the user is locked
+     * ------------
+     */
+    public function isLocked(): bool
+    {
+        /**
+         * @var \App\Models\User $this
+         */
+        return $this->locked;
+    }
+
+    /**
+     * Lock the user
+     * ------------
+     */
+    public function lock(): bool
+    {
+        /**
+         * @var \App\Models\User $this
+         */
+        return $this->forceFill([
+            'locked' => true,
+        ])->save();
+    }
+
+    /**
+     * Unlock the user
+     * ------------
+     */
+    public function unlock(): bool
+    {
+        /**
+         * @var \App\Models\User $this
+         */
+        return $this->forceFill([
+            'locked' => false,
+        ])->save();
+    }
+
+    /**
+     * Sent password reset code
+     */
+
 }
