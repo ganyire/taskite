@@ -6,6 +6,11 @@ interface PasswordResetContract
 {
 
     /**
+     * Generate password reset token
+     */
+    public function generatePasswordResetToken(): string;
+
+    /**
      * Send password reset token to the user
      * ------------
      */

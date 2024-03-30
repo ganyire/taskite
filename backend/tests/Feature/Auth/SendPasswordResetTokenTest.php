@@ -23,7 +23,7 @@ test('User can request a password reset token',
             $user,
             fn(PasswordResetTokenNotification $notification) => (
                 strrev($notification->passwordResetToken) === $user->getPasswordResetToken() &&
-                str($notification->passwordResetToken)->length() === 6
+                str($notification->passwordResetToken)->length() === tokenLength()
             )
         );
         assertDatabaseCount('password_reset_tokens', 1);

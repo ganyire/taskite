@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\SentEmailVerificationCodeRequest;
+use App\Http\Requests\Auth\SendEmailVerificationCodeRequest;
 use App\Models\User;
 use App\Services\HttpResponse;
 use Illuminate\Http\JsonResponse;
 
-class SentEmailVerificationCodeController extends Controller
+class SendEmailVerificationCodeController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(SentEmailVerificationCodeRequest $request): JsonResponse
+    public function __invoke(SendEmailVerificationCodeRequest $request): JsonResponse
     {
         /**
          * @var User $user

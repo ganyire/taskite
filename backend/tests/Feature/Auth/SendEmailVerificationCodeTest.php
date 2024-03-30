@@ -5,16 +5,16 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\postJson;
 use Illuminate\Support\Facades\Notification;
-use Tests\RequestFactories\Auth\SentEmailVerificationCodeRequestFactory;
+use Tests\RequestFactories\Auth\SendEmailVerificationCodeRequestFactory;
 
 /**
  * ----------------
  */
-test('Sent Email Verification Code', function () {
+test('User can request email verification code', function () {
     Notification::fake();
     $email = fake()->safeEmail();
     $user  = createBasicUser(['email' => $email]);
-    SentEmailVerificationCodeRequestFactory::new ([
+    SendEmailVerificationCodeRequestFactory::new ([
         'email' => $email,
     ])->fake();
     $response = postJson("{$this->baseUrl}/auth/email/verification-code");
@@ -41,7 +41,7 @@ test('Validation error if the email given does not exist, invalid, or empty', fu
     $email        = fake()->safeEmail();
     $requestEmail = 'prefix' . $email;
     $user         = createBasicUser(['email' => $email]);
-    SentEmailVerificationCodeRequestFactory::new ([
+    SendEmailVerificationCodeRequestFactory::new ([
         'email' => $requestEmail,
     ])->fake();
     $response = postJson("{$this->baseUrl}/auth/email/verification-code");

@@ -14,9 +14,12 @@ return [
      */
 
     'custom'     => [
-        'email' => [
+        'email'    => [
             'exists' => 'The :attribute does not exist in our system',
             'unique' => 'The :attribute has already been taken',
+        ],
+        'password' => [
+            'confirmed' => 'Password confirmation failed',
         ],
     ],
 

@@ -10,6 +10,26 @@ use Nette\Utils\Random;
 
 trait PasswordResetTrait
 {
+    public function generatePasswordResetToken(): string
+    {
+        $token = Random::generate(tokenLength());
+        /**
+         * @var \App\Models\User $this
+         */
+        $storeToken = PasswordResetToken::query()->updateOrCreate(
+            ['email' => $this->email],
+            [
+                'token'      => $token,
+                'created_at' => now(),
+            ]
+        );
+        if (!$storeToken) {
+            throw new \Exception(__('passwords.token_failed'));
+        }
+
+        return $storeToken->token;
+    }
+
     /**
      * Send password reset token to the user
      * ------------
@@ -19,19 +39,8 @@ trait PasswordResetTrait
         /**
          * @var \App\Models\User $this
          */
-        $token      = Random::generate(6);
-        $storeToken = PasswordResetToken::query()->updateOrCreate(
-            ['email' => $this->email],
-            [
-                'token'      => $token,
-                'created_at' => now(),
-            ]
-        );
-
-        if (!$storeToken) {
-            throw new \Exception(__('passwords.sent_failed'));
-        }
-        $reversedToken = strrev($token);
+        $passwordResetToken = $this->generatePasswordResetToken();
+        $reversedToken      = strrev($passwordResetToken);
         $this->notify(new PasswordResetTokenNotification($reversedToken));
         return;
     }
@@ -83,7 +92,7 @@ trait PasswordResetTrait
         string $passwordResetToken
     ): bool {
         $reversedToken       = strrev($passwordResetToken);
-        $tokenExpirationTime = config("auth.passwords.users.expire", 30);
+        $tokenExpirationTime = passwordTokenExpiration();
         return PasswordResetToken::query()
             ->where('email', $this->email)
             ->where('token', $reversedToken)

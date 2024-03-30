@@ -4,7 +4,7 @@ namespace Tests\RequestFactories\Auth;
 
 use Worksome\RequestFactories\RequestFactory;
 
-class SentEmailVerificationCodeRequestFactory extends RequestFactory
+class SendEmailVerificationCodeRequestFactory extends RequestFactory
 {
     public function definition(): array
     {
