@@ -8,7 +8,10 @@ use Tests\RequestFactories\Auth\LoginRequestFactory;
 test('User can login to the app', function () {
     $teamName = 'my-team';
     $password = fake()->password();
-    $user     = registerUser(teamName: $teamName, password: $password);
+    /**
+     * @var \App\Models\User|Illuminate\Contracts\Auth\Authenticatable $user
+     */
+    $user = registerUser(teamName: $teamName, password: $password);
     LoginRequestFactory::new ([
         'email'    => $user->email,
         'password' => $password,

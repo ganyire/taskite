@@ -17,4 +17,4 @@ uses(Tests\TestCase::class)
 
 uses(
     Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature');
+)->in('Feature', 'Unit');

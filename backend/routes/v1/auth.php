@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -15,4 +16,5 @@ Route::prefix('auth')->group(function () {
     Route::post('/email/verify', VerifyEmailController::class);
     Route::post('/password/reset-token', SendPasswordResetTokenController::class);
     Route::post('/password/reset', ResetPasswordController::class);
+    Route::post('/password/change', ChangePasswordController::class)->middleware('auth:sanctum');
 });

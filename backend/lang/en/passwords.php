@@ -21,5 +21,6 @@ return [
     'user'          => "We can't find a user with that email address.",
     'sent_failed'   => 'Failed to send password reset token. Please try again.',
     'reset_failed'  => 'Failed to reset password. Please try again.',
+    'changed'       => 'Your password has been changed.',
 
 ];

@@ -42,7 +42,7 @@ class RegisterDto
 
         return $filter ? Arr::where(
             $data,
-            fn($value) => !empty($value) && !is_null($value)
+            fn($value) => !empty($value)
         ) : $data;
     }
 }
