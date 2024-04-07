@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Auth;
+namespace App\Http\Resources\Project;
 
 use App\Http\Resources\Common\DateResource;
-use App\Http\Resources\Role\RoleResource;
 use App\Http\Resources\Team\TeamResource;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AuthResource extends JsonResource
+class ProjectResource extends JsonResource
 {
     /**
      * Create a new resource instance.
@@ -18,7 +18,6 @@ class AuthResource extends JsonResource
      */
     public function __construct(
         public $resource,
-        private $accessToken,
         private bool $showTimestamps = true
     ) {
         parent::__construct($resource);
@@ -26,20 +25,21 @@ class AuthResource extends JsonResource
 
     /**
      * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
+     * ----------
      */
     public function toArray(Request $request): array
     {
-        $teamRole = $this->getCurrentTeamRole($this->ownedTeam?->id);
-
+        $canReturnTeam = $this->whenNotNull('team') && $this->whenLoaded('team');
         return [
             'id'          => $this->id,
             'name'        => $this->name,
-            'email'       => $this->email,
-            'team'        => new TeamResource($this->ownedTeam, false),
-            'accessToken' => $this->accessToken,
-            'teamRole'    => new RoleResource($teamRole, false),
+            'description' => $this->whenNotNull($this->description),
+            'status'      => $this->status,
+            'team'        => $this->when(
+                $canReturnTeam,
+                new TeamResource($this->team, false)
+            ),
+            'owner'       => $this->whenLoaded('user', new UserResource($this->user, false)),
             $this->mergeWhen($this->showTimestamps, [
                 'createdAt' => new DateResource($this->created_at),
                 'updatedAt' => new DateResource($this->updated_at),

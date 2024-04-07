@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Resources\Auth\AuthResource;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use App\Services\HttpResponse;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +29,10 @@ class LoginController extends Controller
         $user->load(['roles']);
         $user->append('ownedTeam');
         $token    = $user->createAccessToken();
-        $response = new AuthResource($user, $token);
+        $response = new UserResource(
+            resource: $user,
+            accessToken: $token
+        );
 
         return HttpResponse::success(
             data: $response,

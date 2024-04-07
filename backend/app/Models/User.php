@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,8 +28,7 @@ class User extends Authenticatable implements LaratrustUser, PasswordResetContra
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * ------------
      */
     protected $fillable = [
         'name',
@@ -38,8 +38,7 @@ class User extends Authenticatable implements LaratrustUser, PasswordResetContra
 
     /**
      * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * ------------
      */
     protected $hidden = [
         'password',
@@ -48,8 +47,7 @@ class User extends Authenticatable implements LaratrustUser, PasswordResetContra
 
     /**
      * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * ------------
      */
     protected function casts(): array
     {
@@ -61,19 +59,8 @@ class User extends Authenticatable implements LaratrustUser, PasswordResetContra
     }
 
     /**
-     * @relation - Teams that belong to this user
-     */
-    public function teams(): BelongsToMany
-    {
-        return $this->belongsToMany(Team::class)
-            ->using(TeamUser::class)
-            ->withPivot([
-                'is_owner',
-            ]);
-    }
-
-    /**
      * @attribute The team that the user owns
+     * ------------
      */
     public function ownedTeam(): Attribute
     {
@@ -85,6 +72,28 @@ class User extends Authenticatable implements LaratrustUser, PasswordResetContra
                     value: true
                 )->first()
         );
+    }
+
+    /**
+     * @relation Teams that belong to this user
+     * ------------
+     */
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class)
+            ->using(TeamUser::class)
+            ->withPivot([
+                'is_owner',
+            ]);
+    }
+
+    /**
+     * @relation Projects that belong to this user
+     * ------------
+     */
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
     }
 
 }

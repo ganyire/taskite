@@ -20,8 +20,7 @@ class UserFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * ------------
      */
     public function definition(): array
     {
@@ -35,6 +34,7 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the model's email address should be unverified.
+     * ------------
      */
     public function verify(): static
     {
@@ -45,6 +45,7 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the user's account should be locked
+     * ------------
      */
     public function lock(): static
     {
@@ -52,7 +53,10 @@ class UserFactory extends Factory
             'locked' => true,
         ]);
     }
-
+    /**
+     * Assign role to user
+     * ------------
+     */
     public function assignRole(?string $role = null): static
     {
         $roleName = $role ?: fake()

@@ -6,7 +6,7 @@ use App\Dto\Auth\RegisterDto;
 use App\Enums\RolesEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Resources\Auth\AuthResource;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use App\Notifications\Auth\AccountRegisteredNotification;
 use App\Services\HttpResponse;
@@ -37,10 +37,12 @@ class RegisterController extends Controller
             );
             $user->addRole(RolesEnum::OWNER, $ownedTeam);
             $user->append('ownedTeam');
-            $user->load(['roles']);
             $token = $user->createAccessToken();
             auth()->login($user);
-            $responsePayload = new AuthResource($user, $token);
+            $responsePayload = new UserResource(
+                resource: $user,
+                accessToken: $token
+            );
 
             DB::commit();
 

@@ -5,17 +5,17 @@ namespace App\Dto\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class RegisterDto
+readonly class RegisterDto
 {
     /**
      * Create a new class instance.
      */
     public function __construct(
-        public readonly string $email,
-        public readonly string $name,
-        public readonly string $password,
-        public readonly string $teamName,
-        public readonly ?string $teamDisplayName = null,
+        public string $email,
+        public string $name,
+        public string $password,
+        public string $teamName,
+        public ?string $teamDisplayName = null,
     ) {
     }
 

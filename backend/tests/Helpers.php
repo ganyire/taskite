@@ -8,7 +8,7 @@ use App\Models\User;
  * ----------------
  */
 if (!function_exists('registerUser')) {
-    function registerUser(string $teamName, string $password): User
+    function registerUser(string $teamName, ?string $password = 'Taskite123!'): User
     {
         /**
          * @var User $user

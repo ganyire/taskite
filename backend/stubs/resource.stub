@@ -15,7 +15,7 @@ class {{ class }} extends JsonResource
      * @param bool $showTimestamps
      */
     public function __construct(
-        public mixed $resource, 
+        public $resource, 
         private bool $showTimestamps = true
     ){
         parent::__construct($resource);
