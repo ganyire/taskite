@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Project;
+namespace App\Http\Resources\Todos;
 
 use App\Http\Resources\Common\DateResource;
-use App\Http\Resources\Team\TeamResource;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\Tasks\TaskResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectResource extends JsonResource
+class TodoResource extends JsonResource
 {
     /**
      * Create a new resource instance.
@@ -25,21 +24,17 @@ class ProjectResource extends JsonResource
 
     /**
      * Transform the resource into an array.
-     * ----------
+     *
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->whenNotNull($this->description),
-            'status' => $this->status,
-            'team' => $this->whenLoaded(
-                'team',
-                new TeamResource($this->team, false)
-            ),
-            'owner' => new UserResource(
-                $this->whenLoaded('user'),
+            'description' => $this->description,
+            'isDone' => $this->done,
+            'task' => new TaskResource(
+                $this->whenLoaded('task'),
                 false
             ),
             $this->mergeWhen($this->showTimestamps, [

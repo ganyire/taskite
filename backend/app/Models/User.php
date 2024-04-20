@@ -53,13 +53,14 @@ class User extends Authenticatable implements LaratrustUser, PasswordResetContra
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'locked'            => 'boolean',
+            'password' => 'hashed',
+            'locked' => 'boolean',
         ];
     }
 
     /**
-     * @attribute The team that the user owns
+     * @attribute
+     * The team that the user owns
      * ------------
      */
     public function ownedTeam(): Attribute
@@ -75,7 +76,8 @@ class User extends Authenticatable implements LaratrustUser, PasswordResetContra
     }
 
     /**
-     * @relation Teams that belong to this user
+     * @relation
+     * Teams that belong to this user
      * ------------
      */
     public function teams(): BelongsToMany
@@ -88,7 +90,8 @@ class User extends Authenticatable implements LaratrustUser, PasswordResetContra
     }
 
     /**
-     * @relation Projects that belong to this user
+     * @relation
+     * Projects that belong to this user
      * ------------
      */
     public function projects(): HasMany

@@ -26,7 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ) {
             $isTestingEnvironment = app()->environment('testing');
             if ($exception instanceof ValidationException) {
-                $keyedErrors     = $exception->errors();
+                $keyedErrors = $exception->errors();
                 $flattenedErrors = Arr::flatten($exception->errors());
                 return HttpResponse::error(
                     data: $isTestingEnvironment ? $keyedErrors : $flattenedErrors,

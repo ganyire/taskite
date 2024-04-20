@@ -13,7 +13,7 @@ test('User can login to the app', function () {
      */
     $user = registerUser(teamName: $teamName, password: $password);
     LoginRequestFactory::new ([
-        'email'    => $user->email,
+        'email' => $user->email,
         'password' => $password,
     ])->fake();
     $response = postJson("{$this->baseUrl}/auth/login");
@@ -21,7 +21,7 @@ test('User can login to the app', function () {
     $response->assertOk();
     $response->assertJsonPath(
         'payload.teamRole.name',
-        RolesEnum::OWNER->value
+        RolesEnum::Owner->value
     );
     $response->assertJsonPath(
         'payload.team.name',
@@ -33,9 +33,9 @@ test('User can login to the app', function () {
 
 test('Login fails when supplied wrong credentials', function () {
     $password = fake()->password();
-    $user     = registerUser(teamName: 'my-team', password: $password);
+    $user = registerUser(teamName: 'my-team', password: $password);
     LoginRequestFactory::new ([
-        'email'    => $user->email,
+        'email' => $user->email,
         'password' => 'wrong-password',
     ])->fake();
     $response = postJson("{$this->baseUrl}/auth/login");
@@ -49,7 +49,7 @@ test('Get validation error if email provided does not exist', function () {
     $password = fake()->password();
     registerUser(teamName: 'my-team', password: $password);
     LoginRequestFactory::new ([
-        'email'    => 'mymail@fake.com',
+        'email' => 'mymail@fake.com',
         'password' => $password,
     ])->fake();
     $response = postJson("{$this->baseUrl}/auth/login");

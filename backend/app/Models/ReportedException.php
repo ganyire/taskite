@@ -10,11 +10,5 @@ class ReportedException extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [
-        'exception_message',
-        'file',
-        'line',
-        'exception_trace',
-        'exception_class',
-    ];
+    protected $guarded = ['id'];
 }

@@ -13,6 +13,7 @@ class CreateProjectController extends Controller
 {
     /**
      * Handle the incoming request.
+     * ------------
      */
     public function __invoke(CreateProjectRequest $request): JsonResponse
     {
@@ -27,9 +28,9 @@ class CreateProjectController extends Controller
          * @var \App\Models\Project $project
          */
         $project = $user->projects()->create([
-            'name'        => $request->name,
+            'name' => $request->name,
             'description' => $request->description,
-            'team_id'     => $team?->id,
+            'team_id' => $team?->id,
         ]);
         $project->load('user', 'team');
         $project->refresh();

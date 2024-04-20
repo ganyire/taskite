@@ -18,7 +18,8 @@ class Team extends LaratrustTeam
     public $guarded = ['id'];
 
     /**
-     * @attribute Name of the team
+     * @attribute
+     * Name of the team
      * --------
      */
     protected function name(): Attribute
@@ -31,7 +32,8 @@ class Team extends LaratrustTeam
     }
 
     /**
-     * @attribute Display name of the team
+     * @attribute
+     * Display name of the team
      * --------
      */
     protected function displayName(): Attribute
@@ -46,7 +48,8 @@ class Team extends LaratrustTeam
     }
 
     /**
-     * @relation - Users that belong to this team
+     * @relation
+     * Users that belong to this team
      * --------
      */
     public function users(): BelongsToMany
@@ -56,7 +59,8 @@ class Team extends LaratrustTeam
     }
 
     /**
-     * @relation - Projects that belong to this team
+     * @relation
+     * Projects that belong to this team
      * --------
      */
     public function projects(): HasMany

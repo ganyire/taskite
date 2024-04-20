@@ -20,7 +20,7 @@ test('User can create account successfully', function () {
     $response->assertCreated();
     $response->assertJsonPath(
         'payload.teamRole.name',
-        RolesEnum::OWNER->value
+        RolesEnum::Owner->value
     );
     $response->assertJsonPath(
         'payload.team.name',
@@ -37,7 +37,7 @@ test('User can create account successfully', function () {
         $authUser,
         AccountRegisteredNotification::class
     );
-    assert($authUser->hasRole(RolesEnum::OWNER->value, $authUser->ownedTeam));
+    assert($authUser->hasRole(RolesEnum::Owner->value, $authUser->ownedTeam));
     assertAuthenticated();
     assert(is_string($response->json('payload.accessToken')));
     assertDatabaseCount('users', 1);

@@ -11,7 +11,5 @@ class Role extends RoleModel
 {
     use HasUuids, SoftDeletes, HasFactory;
 
-    public $guarded = [
-        'id',
-    ];
+    public $guarded = ['id'];
 }

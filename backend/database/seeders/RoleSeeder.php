@@ -17,24 +17,24 @@ class RoleSeeder extends Seeder
     {
         $roles = [
             [
-                'name'         => RolesEnum::OWNER,
-                'display_name' => RolesEnum::OWNER->label(),
+                'name' => RolesEnum::Owner,
+                'display_name' => RolesEnum::Owner->label(),
             ],
             [
-                'name'         => RolesEnum::WRITER,
-                'display_name' => RolesEnum::WRITER->label(),
+                'name' => RolesEnum::Writer,
+                'display_name' => RolesEnum::Writer->label(),
             ],
             [
-                'name'         => RolesEnum::REVIEWER,
-                'display_name' => RolesEnum::REVIEWER->label(),
+                'name' => RolesEnum::Reviewer,
+                'display_name' => RolesEnum::Reviewer->label(),
             ],
             [
-                'name'         => RolesEnum::EDITOR,
-                'display_name' => RolesEnum::EDITOR->label(),
+                'name' => RolesEnum::Editor,
+                'display_name' => RolesEnum::Editor->label(),
             ],
             [
-                'name'         => RolesEnum::SUPER_ADMIN,
-                'display_name' => RolesEnum::SUPER_ADMIN->label(),
+                'name' => RolesEnum::SuperAdmin,
+                'display_name' => RolesEnum::SuperAdmin->label(),
             ],
         ];
 
